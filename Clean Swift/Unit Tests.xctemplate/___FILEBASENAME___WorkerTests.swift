@@ -9,7 +9,7 @@ import XCTest
 // MARK: - WORKER
 class ___VARIABLE_sceneName___WorkerTests: XCTestCase {
 	// MARK: SUBJECT UNDER TEST
-	var sut: ___VARIABLE_sceneName___Worker!
+	private var sut: ___VARIABLE_sceneName___Worker!
 	
 	// MARK: TEST LIFECYCLE
 	override func setUp() {
@@ -22,7 +22,7 @@ class ___VARIABLE_sceneName___WorkerTests: XCTestCase {
 	}
 	
 	// MARK: TEST SETUP
-	func setup___VARIABLE_sceneName___Worker() {
+	private func setup___VARIABLE_sceneName___Worker() {
 		sut = ___VARIABLE_sceneName___Worker()
 	}
 	
@@ -32,10 +32,10 @@ class ___VARIABLE_sceneName___WorkerTests: XCTestCase {
 // MARK: - TEST SOMETHING
 extension ___VARIABLE_sceneName___WorkerTests {
 	func testSomething() {
-		// Given
+		// MARK: Given
 		
-		// When
+		// MARK: When
 		
-		// Then
+		// MARK: Then
 	}
 }

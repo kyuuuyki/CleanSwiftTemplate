@@ -8,13 +8,13 @@ import XCTest
 
 // MARK: - VIEW CONTROLLER
 class ___VARIABLE_sceneName___ViewControllerTests: XCTestCase {
-	static var moduleName: String = "___VARIABLE_sceneName___"
-	var nibName = String(describing: ___VARIABLE_sceneName___ViewController.self)
-	var bundle: Bundle? = Bundle(for: ___VARIABLE_sceneName___ViewController.self)
+	private static var moduleName: String = "___VARIABLE_sceneName___"
+	private var nibName = String(describing: ___VARIABLE_sceneName___ViewController.self)
+	private var bundle: Bundle? = Bundle(for: ___VARIABLE_sceneName___ViewController.self)
 	
 	// MARK: SUBJECT UNDER TEST
-	var sut: ___VARIABLE_sceneName___ViewController!
-	var window: UIWindow!
+	private var sut: ___VARIABLE_sceneName___ViewController!
+	private var window: UIWindow!
 	
 	// MARK: TEST LIFECYCLE
 	override func setUp() {
@@ -29,51 +29,57 @@ class ___VARIABLE_sceneName___ViewControllerTests: XCTestCase {
 	}
 	
 	// MARK: TEST SETUP
-	func setup___VARIABLE_sceneName___ViewController() {
+	private func setup___VARIABLE_sceneName___ViewController() {
 		sut = ___VARIABLE_sceneName___ViewController(nibName: nibName, bundle: bundle)
 	}
 	
-	func loadView() {
+	private func loadView() {
 		window.addSubview(sut.view)
 		RunLoop.current.run(until: Date())
 	}
 	
 	// MARK: TEST DOUBLES
-	class ___VARIABLE_sceneName___InteractorSpy: ___VARIABLE_sceneName___InteractorProtocol {
+	private class ___VARIABLE_sceneName___InteractorSpy: ___VARIABLE_sceneName___InteractorProtocol {
 		var doSomethingCalled = false
-		
+		var doSomethingRequest: ___VARIABLE_sceneName___Model.Something.Request!
 		func doSomething(request: ___VARIABLE_sceneName___Model.Something.Request) {
 			doSomethingCalled = true
+			doSomethingRequest = request
 		}
+	}
+	
+	private class ___VARIABLE_sceneName___RouterSpy: ___VARIABLE_sceneName___RouterProtocol {
 	}
 }
 
 // MARK: - TEST SHOULD DO SOMETHING WHEN VIEW IS LOADED
 extension ___VARIABLE_sceneName___ViewControllerTests {
 	func testShouldDoSomethingWhenViewIsLoaded() {
-		// Given
-		let spy = ___VARIABLE_sceneName___InteractorSpy()
-		sut.interactor = spy
-		
-		// When
+		// MARK: Given
 		loadView()
 		
-		// Then
-		XCTAssertTrue(spy.doSomethingCalled, "viewDidLoad() should ask the interactor to do something")
+		let interactor = ___VARIABLE_sceneName___InteractorSpy()
+		sut.interactor = interactor
+		
+		// MARK: When
+		
+		// MARK: Then
+		XCTAssertTrue(interactor.doSomethingCalled, "viewDidLoad() should ask the interactor to do something")
 	}
 }
 
 // MARK: - TEST DISPLAY SOMETHING
 extension ___VARIABLE_sceneName___ViewControllerTests {
 	func testDisplaySomething() {
-		// Given
+		// MARK: Given
+		loadView()
+		
 		let viewModel = ___VARIABLE_sceneName___Model.Something.ViewModel()
 		
-		// When
-		loadView()
+		// MARK: When
 		sut.displaySomething(viewModel: viewModel)
 		
-		// Then
-		//XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
+		// MARK: Then
+		// XCTAssertEqual(sut.nameTextField.text, "")
 	}
 }

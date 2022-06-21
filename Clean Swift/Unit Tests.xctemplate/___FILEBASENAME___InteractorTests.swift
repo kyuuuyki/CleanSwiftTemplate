@@ -9,7 +9,7 @@ import XCTest
 // MARK: - INTERACTOR
 class ___VARIABLE_sceneName___InteractorTests: XCTestCase {
 	// MARK: SUBJECT UNDER TEST
-	var sut: ___VARIABLE_sceneName___Interactor!
+	private var sut: ___VARIABLE_sceneName___Interactor!
 	
 	// MARK: TEST LIFECYCLE
 	override func setUp() {
@@ -22,16 +22,24 @@ class ___VARIABLE_sceneName___InteractorTests: XCTestCase {
 	}
 	
 	// MARK: TEST SETUP
-	func setup___VARIABLE_sceneName___Interactor() {
+	private func setup___VARIABLE_sceneName___Interactor() {
 		sut = ___VARIABLE_sceneName___Interactor()
 	}
 	
 	// MARK: TEST DOUBLES
-	class ___VARIABLE_sceneName___PresenterSpy: ___VARIABLE_sceneName___PresenterProtocol {
-		var presentSomethingCalled = false
-		
+	private class ___VARIABLE_sceneName___PresenterSpy: ___VARIABLE_sceneName___PresenterProtocol {
+		var presentSomethingExpectation = XCTestExpectation()
+		var presentSomethingResponse: ___VARIABLE_sceneName___Model.Something.Response!
 		func presentSomething(response: ___VARIABLE_sceneName___Model.Something.Response) {
-			presentSomethingCalled = true
+			presentSomethingResponse = response
+			presentSomethingExpectation.fulfill()
+		}
+	}
+	
+	private class ___VARIABLE_sceneName___WorkerMock: ___VARIABLE_sceneName___WorkerProtocol {
+		var doSomeWorkCalled = false
+		func doSomeWork() {
+			doSomeWorkCalled = true
 		}
 	}
 }
@@ -39,15 +47,27 @@ class ___VARIABLE_sceneName___InteractorTests: XCTestCase {
 // MARK: - TEST DO SOMETHING
 extension ___VARIABLE_sceneName___InteractorTests {
 	func testDoSomething() {
-		// Given
-		let spy = ___VARIABLE_sceneName___PresenterSpy()
-		sut.presenter = spy
+		// MARK: Given
+		let presenter = ___VARIABLE_sceneName___PresenterSpy()
+		sut.presenter = presenter
+		
+		let worker = ___VARIABLE_sceneName___WorkerMock()
+		sut.worker = worker
+		
 		let request = ___VARIABLE_sceneName___Model.Something.Request()
 		
-		// When
+		// MARK: When
 		sut.doSomething(request: request)
 		
-		// Then
-		XCTAssertTrue(spy.presentSomethingCalled, "doSomething(request:) should ask the presenter to format the result")
+		// MARK: Then
+		wait(for: [presentSomethingExpectation], timeout: 5)
+		
+		// Worker
+		XCTAssertTrue(worker.doSomeWorkCalled)
+		
+		// DataStore
+		
+		// Presenter
+		XCTAssertTrue(presenter.presentSomethingResponse.someValue)
 	}
 }
